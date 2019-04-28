@@ -4,9 +4,9 @@ try:
     from PIL import Image
 except ImportError:
     import Image
-#import pytesseract
+import pytesseract
 
-#from picamera import PiCamera
+from picamera import PiCamera
 import time
 
 
@@ -21,17 +21,17 @@ def index():
 
 @app.route("/capture")
 def capture():
-    '''
-	with PiCamera() as camera:
+    with PiCamera() as camera:
         camera.start_preview()
+
         time.sleep(7)
         camera.capture('test.jpeg')
     name = pytesseract.image_to_string(Image.open('test.jpeg'))
     return(name)
-    '''
+'''
     val = 'unicorn'
     return(val)
 
-
+'''
 
 app.run(port=8000, debug=True, host="0.0.0.0")
