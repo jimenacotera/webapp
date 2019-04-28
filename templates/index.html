@@ -1,1 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Words To Pictures</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Cabin+Sketch" rel="stylesheet">
+  <style>
+		.container {
+			margin-top: 30px;
+      background-image: linear-gradient(to right, #FFCB75 , #C9FF75);
+			height : 480px;
+			width : 800px;
+		}
+    #title{
+      font-size: 500%;
+      font-family: 'Cabin Sketch', cursive;
+    }
 
+		.badge {
+			margin-right: 7px;
+			cursor: pointer;
+		}
+    h1{
+      margin: 0;
+      position: absolute;
+      top: 20%;
+      left: 50%;
+      margin-right: -50%;
+      transform: translate(-50%, -50%)
+    }
+    button{
+      margin: 0;
+      position: absolute;
+      top: 30%;
+      left: 50%;
+      margin-right: -50%;
+      transform: translate(-50%, -50%)
+    }
+		img {
+			margin: 0;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-right: -50%;
+      transform: translate(-50%, -50%)
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<h1 class="center" id ="title">LexiGram</h1>
+		<div class="???">
+		  <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick= "capture()" >Scan a Word</button>
+    </div>
+		<div id='img-containers'>
+		</div>
+	</div>
+
+	<script>
+		function capture() {
+			console.log('capturing');
+    }
+
+		fetch("/capture")
+			.then(function(test){
+				try {
+					var name = '{{val}}' + ".jpeg";
+					name = 'static\/' + name;
+					console.log(name);
+					var img = document.createElement('img');
+					img.src = name;
+					img.height = 200;
+					document.getElementById('img-containers').appendChild(img);
+					console.log(img);
+				}
+				catch (err){
+					console.log("error");
+				}
+      });
+	</script>
+</body>
+</html>
