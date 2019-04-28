@@ -6,10 +6,10 @@
   <link href="https://fonts.googleapis.com/css?family=Cabin+Sketch" rel="stylesheet">
   <style>
     .container {
-      
+
       background-image: linear-gradient(to right, #FFCB75 , #C9FF75);
       height : 470px;
-      width : 15000px;
+      width : 1500px;
 		}
     #title{
       font-size: 500%;
@@ -39,7 +39,7 @@
     img {
       margin: 0;
       position: absolute;
-      top: 70%;
+      top: 50%;
       left: 50%;
       margin-right: -50%;
       transform: translate(-50%, -50%)
@@ -52,7 +52,7 @@
       margin-right: -50%;
       transform: translate(-50%, -50%)
     }
-      
+
 	</style>
 </head>
 
@@ -61,33 +61,50 @@
 		<h1 class="center" id ="title">LexiGram</h1>
 		<!--<h2 class="center">Hello and welcome to LexiGram! Start off by clicking the button and aiming your device at the word you don't understand</h2>-->
 		<div class="???">
-			<!--<button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick= "capture()" >Scan a Word</button>-->
+			<button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick= "capture()" >Scan a Word</button>
     </div>
 		<div id='img-containers'>
+      {% if val =='starter' %}
+        <img src='static/starter.png' height = 200 ></img>
+      {% endif %}
 		</div>
 	</div>
 
 	<script>
 		function capture() {
-			console.log('capturing');
-    }
+      var images = document.getElementById('img-containers');
+      for var elem in images{
+        elem.style.display = none;
+        console.log(elem);
+      }
 
-		fetch("/capture")
-			.then(function(test){
-				try {
-					var name = '{{val}}' + ".jpeg";
-					name = 'static\/' + name;
-					console.log(name);
-					var img = document.createElement('img');
-					img.src = name;
-					img.height = 200;
-					document.getElementById('img-containers').appendChild(img);
-					console.log(img);
-				}
-				catch (err){
-					console.log("error");
-				}
-      });
+			//console.log('capturing');
+      var fd = new FormData();
+
+  		val = fetch("/capture",{
+				method: "POST",
+				body: fd,
+			}).then(function(resp) {
+				return resp.text();
+      }).then(function(text){
+        //console.log(text);
+        {{val}} = text;
+        //console.log({{val}});
+  				try {
+  					var name = text + ".png";
+  					name = 'static\/' + name;
+  					console.log(name);
+  					var img = document.createElement('img');
+  					img.src = name;
+  					img.height = 200;
+  					document.getElementById('img-containers').appendChild(img);
+  					console.log(img);
+  				}
+  				catch (err){
+  					console.log("error");
+  				}
+        });
+    }
 	</script>
 </body>
 </html>
