@@ -4,6 +4,8 @@
   <title>Words To Pictures</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css?family=Cabin+Sketch" rel="stylesheet">
+
+  <!--the following block of CSS code is for styling and aesthetical purposes-->
   <style>
     .container {
 
@@ -23,7 +25,7 @@
     h1{
       margin: 0;
       position: absolute;
-      top: 15%;
+      top: 10%;
       left: 50%;
       margin-right: -50%;
       transform: translate(-50%, -50%)
@@ -31,7 +33,7 @@
     button{
       margin: 0;
       position: absolute;
-      top: 30%;
+      top: 20%;
       left: 50%;
       margin-right: -50%;
       transform: translate(-50%, -50%)
@@ -39,7 +41,7 @@
     img {
       margin: 0;
       position: absolute;
-      top: 50%;
+      top: 40%;
       left: 50%;
       margin-right: -50%;
       transform: translate(-50%, -50%)
@@ -52,57 +54,47 @@
       margin-right: -50%;
       transform: translate(-50%, -50%)
     }
-
 	</style>
 </head>
 
 <body>
 	<div class="container">
 		<h1 class="center" id ="title">LexiGram</h1>
-		<!--<h2 class="center">Hello and welcome to LexiGram! Start off by clicking the button and aiming your device at the word you don't understand</h2>-->
 		<div class="???">
-			<button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick= "capture()" >Scan a Word</button>
+			<button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="capture()" >Click to scan a word</button>
     </div>
 		<div id='img-containers'>
-      {% if val =='starter' %}
-        <img src='static/starter.png' height = 200 ></img>
-      {% endif %}
+        <img id='image' src = 'static/logo.png' height = 200 ></img>
 		</div>
 	</div>
 
 	<script>
+    //the function that is called when the button is clicked
 		function capture() {
-      var images = document.getElementById('img-containers');
-      for var elem in images{
-        elem.style.display = none;
-        console.log(elem);
-      }
-
-			//console.log('capturing');
+			console.log('capturing');
       var fd = new FormData();
-
-  		val = fetch("/capture",{
+  		val = fetch("/capture",{ //fetches for the function capture in the Flask app
 				method: "POST",
 				body: fd,
 			}).then(function(resp) {
 				return resp.text();
       }).then(function(text){
-        //console.log(text);
-        {{val}} = text;
-        //console.log({{val}});
-  				try {
-  					var name = text + ".png";
-  					name = 'static\/' + name;
-  					console.log(name);
-  					var img = document.createElement('img');
-  					img.src = name;
-  					img.height = 200;
-  					document.getElementById('img-containers').appendChild(img);
-  					console.log(img);
+
+        //all of the words that our program can understand right now
+        var words = ['cherry', 'cookie', 'dinosaur','bench','apple'];
+        console.log(words.indexOf(text));
+        //if the text matches one of the words
+        if (words.indexOf(text) != -1) {
+          var image = document.getElementById('image');
+					var name = text + ".png";
+					name = 'static\/' + name;
+          image.src = name;
   				}
-  				catch (err){
-  					console.log("error");
-  				}
+        else{
+          //if the program fails or we can't find the word, a picture with a message will show up
+          var image = document.getElementById('image');
+          image.src = 'static/notfound.png';
+        }
         });
     }
 	</script>
