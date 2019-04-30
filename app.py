@@ -4,9 +4,9 @@ try:
     from PIL import Image
 except ImportError:
     import Image
-#import pytesseract
+import pytesseract
 
-#from picamera import PiCamera
+from picamera import PiCamera
 import time
 
 
@@ -21,18 +21,13 @@ def index():
 #code that is called when the button is pressed
 @app.route("/capture", methods=['POST'])
 def capture():
-    '''
     with PiCamera() as camera:
         camera.start_preview()
-
         time.sleep(8)
         camera.capture('test.jpeg')
     name = pytesseract.image_to_string(Image.open('test.jpeg'))
 
     return(name)
-'''
-    val = 'dinosaur'
-    return(val)
 
 
 #this app is run in your computer's localhost:8000
